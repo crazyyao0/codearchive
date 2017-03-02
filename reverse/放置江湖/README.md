@@ -7,16 +7,16 @@
 放置江湖是深圳小猴跳跳出品的一款文字类武侠Mud游戏。我在TapTap上下载的，玩了几天后发现网上的攻略都没有具体数据。于是想把这个游戏拆开看看。
 
 
-111
+001
 ---------------------------
 放置江湖目前只能通过TapTap下载. 在TapTap里设置禁用自动删除安装包后, 游戏安装包可以在下面这个位置找到。
-
+```
     Android/data/com.taptap/files/Download/taptaptmp/
-
+```
 下载安装包后解压缩。首先看到的是这个文件
-
+```
     lib/armeabi/libcocos2dlua.so
-
+```
 看来游戏应该是基于cocos2dx的。随后在assets目录下发现了很多lua脚本以及图片资源。图片没有加密，直接都可以看到，但这不是我想要的。随便打开一个Lua脚本。看到如下内容
 
 ![lua_file_winhex](lua_raw.png)	
@@ -26,9 +26,10 @@
 ![lua_file_winhex](bytes_frequency.png)
 
 这个文件不是压缩了就是加密了。加密的可能性更大一些。鉴于lib下的那个文件的文件名是libcocos2dlua.so，这些扩展名是lua的文件应该是处理过的脚本文件。现在目标是弄明白这个文件是怎样压缩和加密的。不用废话了，直接开始反汇编吧。
-    objdump -CT libcocos2dlua.so > fzjh.sym
+```    
+    objdump -CT libcocos2dlua.so > fzjh.sym
     objdump -Cd libcocos2dlua.so > fzjh.asm
- 
+ ```
  从cocos2d::cocos2dVersion()看到如下反汇编：
  
  ```asm
@@ -45,9 +46,9 @@
 ![lua_file_winhex](getversion2.png)
 
 这里就是版本号了。可以看到版本号是cocos2dx 3.9。来到cocos2dx的github上把3.9下载下来开始对照代码读汇编，效率果然高。
-    
-    https://github.com/cocos2d/cocos2d-x
-
+```    
+    https://github.com/cocos2d/cocos2d-x
+```
 通过在符号表中搜索"key", "decrypt"等关键字，很快就找到了一些线索。
 
 cocos2d::LuaStack::executeScriptFile() 会调用 cocos2d::LuaStack::luaLoadBuffer() 然后调用了 xxtea_encrypt()进行解密。貌似对lua加密是cocos2dx内置的功能。
@@ -132,9 +133,9 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
 仔细读了一下源代码，发现密钥 xxteaKey必须要通过调用setXXTEAKeyAndSign()方法来设置。但是奇怪的是全局搜了都没有找到有调用过这个函数的地方。寻找密钥的过程在这里遇到了第一个困难。
 
 
-0002
+002
 ---------------------------
-回来继续看反汇编代码。因为objdump对arm的代码识别不怎么好，所以里面有很多错误的symbol。这个需要注意识别。比如说cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0xf54 就完全不知所云。源代码里面是strncmp()。进取看了一下。这个地方应该是plt table。的确识别起来比较困难。
+回来继续看反汇编代码。因为objdump对arm的代码识别不怎么好，所以里面有很多错误的symbol。这个需要注意识别。比如说cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0xf54 就完全不知所云。源代码里面是strncmp()。进去看了一下，这个地方应该是plt table，的确识别起来比较困难。
 ```asm
 00471f7c <cocos2d::LuaStack::luaLoadBuffer(lua_State*, char const*, int, char const*, char const*)>:
   471f7c:	b5f0      	push	{r4, r5, r6, r7, lr}
@@ -248,10 +249,13 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
   457d5a:	0086      	lsls	r6, r0, #2
 ```
 最终还是调用了xxtea_decrypt这个函数来解密的。这个函数的第三个参数就是密钥。
-  457d12:	ae05      	add	    r6, sp, #20
+
+```asm
+  457d12:	ae05      	add	    r6, sp, #20
   457d24:	1c32      	adds	r2, r6, #0
   457d28:	2380      	movs	r3, #128	; 0x80
-  
+```
+
 通过这几行可知秘钥被存在了局部变量sp+20的位置上。他的长度是128字节。显然这个密钥是通过JM::gdk的第三个参数传出的
 
 ```asm
@@ -348,14 +352,45 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
 ```
 
 这部分代码开始一部分代码在判断密文的前六个字符是不是“ABCTJM”。Excited! 胜利就在眼前。457ad6判断了返回指针是否为空。然后从数据区加载了一个指针。经过计算这个指针的值是BB64AC
+
+```asm
   457ada:	4f11       	ldr	r7, [pc, #68]
   457ae0:	447f      	add	r7, pc
-  
-![lua_file_winhex](getversion2.png)
+```  
+![lua_file_winhex](keybuffer.png)
 
 这堆数据很可疑。继续看代码。下面这个函数带了3个参数。symbol是错误的。我估计应该是libc里的某个函数比如说memcpy
-bl	709be4 <cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0x110>
+
+```asm
+  bl	709be4 <cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0x110>
+```
+
 如果我猜的没错的话，那个这段代码的逻辑是将BB64AC开始的64字节拷贝到一个局部变量数组中sp+4中，然后将后64字节拷贝到返回数组的一开始。最后将栈里的64字节也复制到返回数组中。这样正好是128字节。所以不出意外的话，这就是密钥了。
 
-让我们来验证一下
-End
+让我们来验证一下。废了点功夫才找到的xxtea_decrypt的源代码。他在cocos2d的另一个项目里
+
+```
+   https://github.com/cocos2d/cocos2d-x-3rd-party-libs-bin/tree/v3/xxtea
+```
+
+然后写了一个小程序，使用了下面的key来解密lua文件。注意要先去掉前6个字节的signature。然后就意料之中的成功了。
+```cpp
+unsigned char xxteakey[128] = {
+	0x17, 0xBC, 0xD3, 0xA9, 0x46, 0xC6, 0x2E, 0x72, 0x9F, 0xD8, 0xDE, 0xE6, 0xF2, 0x11, 0xDF, 0x26,
+	0xAC, 0xB9, 0xA0, 0xF2, 0x59, 0xBF, 0xAA, 0xC1, 0x67, 0x66, 0x83, 0x10, 0x2D, 0x3B, 0xD2, 0xFA,
+	0x2C, 0x4A, 0xC3, 0x09, 0x94, 0x91, 0xAD, 0x4C, 0x0A, 0xB5, 0xF3, 0xA9, 0xA8, 0xF4, 0x28, 0x75,
+	0x45, 0x5B, 0x76, 0x42, 0xF7, 0x39, 0x40, 0xF8, 0xD7, 0xD3, 0x06, 0x28, 0x04, 0x59, 0x89, 0x9C,
+	0xEB, 0x19, 0x30, 0x33, 0xC5, 0xF3, 0xAB, 0xEC, 0x60, 0x0D, 0xD6, 0x40, 0x23, 0xC8, 0xE0, 0xB5,
+	0x4D, 0xF2, 0xAC, 0xB0, 0x7D, 0x3D, 0x77, 0x8A, 0x77, 0xEF, 0xBC, 0xE7, 0x25, 0xDC, 0x54, 0x43,
+	0xDC, 0x91, 0xE2, 0xCE, 0xE1, 0xD3, 0x6E, 0x7A, 0x2C, 0x48, 0x50, 0x52, 0x6B, 0x73, 0x50, 0x0D,
+	0x4A, 0xE6, 0x0B, 0xE3, 0xF2, 0xB2, 0x99, 0x9F, 0xCF, 0x23, 0x6C, 0xF6, 0x97, 0xAA, 0x7B, 0x17
+};
+```
+
+003
+--------------------------
+
+之后用python写了一个脚本遍历所有lua文件全部都解开。然后制作了一个excel文件，收集了游戏中的各种数据。终于可以心满意足的玩下去了。
+![lua_file_winhex](skilltable.png)
+
+什么？改游戏这种事情我是不屑于做的啦。
