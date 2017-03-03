@@ -4,9 +4,9 @@
 
 000
 ---------------------------
-放置江湖是深圳小猴跳跳出品的一款文字类武侠Mud游戏。我在TapTap上下载的。玩了之后一下子就触动了。这个游戏非常像我高中时候在文曲星上玩得叫gmud的游戏。记得当时花了非常多的时间在这个游戏上(其实是因为上课太无聊)。当时的文曲星用的是2032的纽扣电池，一节电池要5块钱。我在这个游戏上用光了几十节电池。当时为了能干掉武学修为达到返璞归真级别的张三丰，我开始修改游戏。从修改游戏数据开始到修改游戏图片到直接修改游戏代码。最后我练就了可以人肉6502指令集的汇编和反汇编技术。我把大段代码抄在纸上分析。然后改完以后再写回到Rom里。现在想想真是疯狂啊。
+放置江湖是深圳小猴跳跳出品的一款文字类武侠Mud游戏。我在TapTap上下载的。玩了之后一下子就触动了。这个游戏非常像我高中时候在文曲星上玩得叫gmud的游戏。记得当时花了非常多的时间在这个游戏上(其实是因为上课太无聊)。当时的文曲星用的是2032的纽扣电池，一节电池要5块钱。我在这个游戏上用光了几十节电池。那时候为了能干掉武学修为达到返璞归真级别的张三丰，我开始修改游戏。从修改游戏数据到修改游戏图片到直接修改游戏代码。最后我练就了可以人肉6502指令集的汇编和反汇编技术。我会把大段代码抄在纸上分析，然后改完以后再写回到Rom里。现在想想真是疯狂啊。
 
-言归正传。我玩了几天后发现网上的攻略都没有具体数据。于是想把这个游戏拆开看看。
+言归正传。我玩了几天后发现网上的攻略都没有具体数值。于是想把这个游戏拆开看看。
 
 
 001
@@ -29,9 +29,9 @@
 
 这个文件不是压缩了就是加密了。加密的可能性更大一些。鉴于lib下的那个文件的文件名是libcocos2dlua.so，这些扩展名是lua的文件应该是处理过的脚本文件。现在目标是弄明白这个文件是怎样压缩和加密的。不用废话了，直接开始反汇编吧。
 
-```    
-    objdump -CT libcocos2dlua.so > fzjh.sym
-    objdump -Cd libcocos2dlua.so > fzjh.asm
+```
+  objdump -CT libcocos2dlua.so > fzjh.sym
+  objdump -Cd libcocos2dlua.so > fzjh.asm
 ```
 
 从cocos2d::cocos2dVersion()看到如下反汇编：
@@ -143,7 +143,7 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
 
 002
 ---------------------------
-回来继续看反汇编代码。因为objdump对arm的代码识别不怎么好，所以里面有很多错误的symbol。这个需要注意识别。比如说cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0xf54 就完全不知所云。源代码里面是strncmp()。进去看了一下，这个地方应该是plt table，的确识别起来比较困难。
+回来继续看反汇编代码。因为objdump对arm的代码识别不怎么好，所以里面有很多错误的symbol。这个需要注意识别。比如说cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0xf54 就完全不知所云。而在源代码里面这里写的是strncmp()。进去看了一下，这个地方有点像plt table，但又不是plt。最糟糕的是那里应该是ARM指令而不是Thumb指令，objdump完全搞错了，所以没有办法深究了。
 
 ```asm
 00471f7c <cocos2d::LuaStack::luaLoadBuffer(lua_State*, char const*, int, char const*, char const*)>:
@@ -265,7 +265,7 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
   457d28:	2380      	movs	r3, #128	; 0x80
 ```
 
-通过这几行可知秘钥被存在了局部变量sp+20的位置上。他的长度是128字节。显然这个密钥是通过JM::gdk的第三个参数传出的
+通过以上这几行可知密钥被存在了局部变量sp+20的位置上。他的长度是128字节。显然这个密钥是通过JM::gdk的第三个参数传出的。让我们看一下JM::gdk这个函数做了什么？
 
 ```asm
 00457a58 <JM::gdk(unsigned char*, unsigned int, unsigned char*, unsigned int*)>:
@@ -365,11 +365,13 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
 ```asm
   457ada:	4f11       	ldr	r7, [pc, #68]
   457ae0:	447f      	add	r7, pc
-```  
+```
+
+下面这堆数据很可疑。
 
 ![lua_file_winhex](keybuffer.png)
 
-这堆数据很可疑。继续看代码。下面这个函数带了3个参数。symbol是错误的。我估计应该是libc里的某个函数比如说memcpy。不要问为什么，这是直觉。
+继续看代码。下面这个函数带了3个参数。但是symbol是错误的。介于这个函数的第一个参数是目标地址，第二个参数是源地址，第三个参数是长度64， 我估计应该是libc里的某个函数比如说memcpy。
 
 ```asm
   bl	709be4 <cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0x110>
@@ -404,6 +406,7 @@ unsigned char xxteakey[128] = {
 之后用python写了一个脚本遍历所有lua文件并全部都解开。然后制作了一个excel文件，收集了游戏中的各种数据。终于心满意足了。
 
 ![lua_file_winhex](skilltable.png)
+![lua_file_winhex](titletable.png)
 
 什么？改游戏这种事情我是不屑于做的啦。
 
