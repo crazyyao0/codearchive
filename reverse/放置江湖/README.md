@@ -51,8 +51,8 @@
 
 这里就是版本号了。可以看到版本号是cocos2dx 3.9。来到cocos2dx的github上把3.9下载下来开始对照代码读汇编，效率果然高。
 
-```    
-    https://github.com/cocos2d/cocos2d-x
+```
+    https://github.com/cocos2d/cocos2d-x
 ```
 
 通过在符号表中搜索"key", "decrypt"等关键字，很快就找到了一些线索。
