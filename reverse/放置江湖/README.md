@@ -360,18 +360,18 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
   457b14:	bdf0      	pop	{r4, r5, r6, r7, pc}
 ```
 
-这部分代码开始一部分代码在判断密文的前六个字符是不是“ABCTJM”。Excited! 胜利就在眼前。457ad6判断了返回指针是否为空。然后从数据区加载了一个指针。经过计算这个指针的值是BB64AC
+这个函数最开始一部分代码检查了密文的前六个字符是不是“ABCTJM”，这正好是那个加密过的lua文件的前六个字节。So Excited! 胜利就在眼前。457ad6这条指令判断了返回指针是否为空。然后代码从数据区加载了一个指针到r7。经过计算这个指针的值是BB64AC
 
 ```asm
   457ada:	4f11       	ldr	r7, [pc, #68]
   457ae0:	447f      	add	r7, pc
 ```
 
-下面这堆数据很可疑。
+察看一下这个地址的内容，发现这个指针指向的这堆数据很可疑:smile:
 
 ![lua_file_winhex](keybuffer.png)
 
-继续看代码。下面这个函数带了3个参数。但是symbol是错误的。介于这个函数的第一个参数是目标地址，第二个参数是源地址，第三个参数是长度64， 我估计应该是libc里的某个函数比如说memcpy。
+继续看代码。下面这个函数symbol是错误的，它带了3个参数。根据这个函数的第一个参数是目标地址，第二个参数是源地址，第三个参数是长度64， 我估计应该是libc里的某个函数比如说memcpy。
 
 ```asm
   bl	709be4 <cocos2d::TextureAtlas::increaseTotalQuadsWith(int)+0x110>
@@ -403,7 +403,7 @@ unsigned char xxteakey[128] = {
 003
 --------------------------
 
-之后用python写了一个脚本遍历所有lua文件并全部都解开。然后制作了一个excel文件，收集了游戏中的各种数据。终于心满意足了。
+之后我用python写了一个脚本遍历所有lua文件并全部都解开。然后制作了一个excel表格，收集了游戏中的各种数据。终于心满意足了。
 
 ![lua_file_winhex](skilltable.png)
 ![lua_file_winhex](titletable.png)
