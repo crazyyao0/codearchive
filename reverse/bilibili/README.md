@@ -96,7 +96,7 @@ tv.bilibili.net.ClickService
          var _loc6_:String = getSign(_loc5_[1] + "&player=1");
          var _loc7_:URLRequest = new URLRequest(_loc5_[0] + "?" + _loc6_);
 ```
-getSign接受一个类似于"cid=7850017&ts=1488850040&player=1"字符串， 返回"sign=b3affbb1155fe02b8be69028e407e2c9&cid=7850017&player=1&ts=1488850040"这样的字符串。找到getSign的源代码
+getSign接受一个类似于"cid=7850017&player=1"字符串， 返回"sign=b3affbb1155fe02b8be69028e407e2c9&cid=7850017&player=1&ts=1488850040"这样的字符串。找到getSign的源代码
 
 ```actionscript
    public function getSign(param1:String) : String
@@ -171,7 +171,7 @@ getSign接受一个类似于"cid=7850017&ts=1488850040&player=1"字符串， 返
 002
 ---------------------------
 
-貌似这里运用了一个高深的技术（也许并不高深，是我孤陋寡闻了）。某个工具可以将dll文件转换成ActionScript代码。每一条x86指令都会被翻译成若干条AS的代码。比如说
+貌似这里运用了一个高深的技术（也许并不高深，是我孤陋寡闻了）。某个工具可以将so文件转换成ActionScript代码。每一条x86指令都会被翻译成若干条AS的代码。比如说
 ```actionscript
       var _loc3_:* = int(ESP);
       _loc2_ = _loc3_;
@@ -182,7 +182,7 @@ getSign接受一个类似于"cid=7850017&ts=1488850040&player=1"字符串， 返
 ```
 其实就是"SUB ESP, 48"。以此类推。
 
-这个工具同时会将数据段变成一个embeded binary file加到swf文件里。这样AS代码就可以访问数据段的数据了。这真是太有意思了。
+这个工具同时会将数据段变成一个embeded binary file加到swf文件里。这样AS代码就可以访问数据段的数据了。这真是太有意思了！
 
 我费了好大功夫终于渐渐适应了这种代码风格并且弄明白这个函数在做什么。先来看这一段:
 ```actionscript
@@ -218,10 +218,26 @@ getSign接受一个类似于"cid=7850017&ts=1488850040&player=1"字符串， 返
       F___vfprintf();
 ```
 ![bilibili_files](FFdec1.png)
-看到这里我就放心了。所以之前getSign()的第一大段应该是将一段二进制数据转换成16进制字符串。我们给这个字符串起一个名字叫key。
 
+看到这里我就放心了。所以之前getSign()的第一大段应该是将一段16字节长的二进制数据转换成16进制字符串。我给这个字符串起了一个名字叫key="1c15888dc316e05a15fdd0a02ed6584f"
 
+getSign()的第二大段是调用了F_get_sign()。可以看出来F_get_sign有4个参数。分别是char* param1, int param1len, char* key 和 int* retlen。它返回一个字符串应该就是最终的parameter string。接下去getSign()调用了一些清理代码并且返回了F_getSign返回的那个字符串。所以我们继续读一下F_get_sign的源代码。
 
+很不幸F_get_sign的源代码太长了。直接读非常困难。好在我找到了一些有意思的线索
+```
+               si32(1732584193,_loc25_ - 104);
+               si32(-271733879,_loc25_ - 100);
+               si32(-1732584194,_loc25_ - 96);
+               si32(271733878,_loc25_ - 92);
+```
+这里有4个非常显眼的常数。将他们转换成16进制分别是0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476。这四条语句将[loc25 - 104]填成了01 23 45 67 89 AB CD EF FE DC BA 98 76 54 32 10。可见这个函数应该内联了一段求md5的算法。问我怎么看出来的，你自己去下载一个md5的算法看看就知道了。可能编译器在优化的时候将太多东西内联了。总之这个函数很复杂，有700多行算法向的代码，我费了很多功夫，终于猜对了它的算法。
+
+1，将原param1加上时间戳
+2，将querystring里的每一个参数安参数名的字母顺序排序，然后附加上一个key字符串 "1c15888dc316e05a15fdd0a02ed6584f"
+3，求md5
+4, 原字符串附加上"sign=" + md5
+
+比如说原字符串是"cid=7850017&player=1"， 附加时间戳后变成"cid=7850017&player=1&ts=1488850040", 排序后附加key得到"cid=7850017&player=1&ts=14888500401c15888dc316e05a15fdd0a02ed6584f"， 求md5得到"b3affbb1155fe02b8be69028e407e2c9", 所以最终的querystring变成cid=7850017&player=1&ts=1488850040&sign=b3affbb1155fe02b8be69028e407e2c9
 
 
 003
