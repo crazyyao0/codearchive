@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+<style>  
+@font-face {font-family: 'JianPu'; src: url("SimplifyMusicNote.ttf")}
+#musicnotes{
+	width: 800px;
+	height: 850px;
+	font-family:JianPu;
+	font-size:120%;
+}
+</style> 
+<script type="text/javascript" src="piano.js" ></script>
+<script type="text/javascript">
+
+audio = [];
+music = null;
+
+function playnote(track, idx)
+{
+	if (idx < track.length)
+	{
+		setTimeout(function(){playnote(track, idx + 1)}, track[idx][0]);
+		if (track[idx][1])
+		{
+			for (i=0; i<audio.length; i++)
+				if(audio[i].paused)
+					ply = audio[i];
+			if (ply)
+			{
+				ply.src = n[track[idx][1]];
+				ply.volume = track[idx][2] / 128.0;
+				ply.play();
+			}else
+			{
+				console.debug("no available audio object in pool");
+			}
+			music.focus();
+			music.setSelectionRange(track[idx][3], track[idx][4] + 1);
+		}
+	}
+}
+
+function compile(s)
+{
+	track = [];
+	modified_note = [];
+	modified_note[99] = 0;
+	modified = 0;
+	base = 60;
+	volume = 20;
+	tick = 480;
+	cont = 0;
+	repeat_begin = 0;
+	repeat_cur = 1;
+	repeat_cond = 0;
+	start = 0;
+	cur = 0;
+	while(cur < s.length)
+	{
+		c = s[cur];
+		switch(c)
+		{
+			case "Q": base += 24;break;
+			case "q": base += 12;break;
+			case "Z": base -= 24;break;
+			case "z": base -= 12;break;
+			case "x": tick /= 2; break;
+			case "c": tick /= 2; base -= 12; break;
+			case "C": tick /= 2; base -= 24; break;
+			case "v": tick /= 4; break;
+			case "b": tick /= 4; base -= 12; break;
+			case "B": tick /= 4; base -= 24; break;
+			case "n": tick /= 8; break;
+			case "m": tick /= 8; base -= 12; break;
+			case "M": tick /= 8; base -= 24; break;
+			case "#": modified = 1; break;
+			case "$": modified = -1; break;
+			case "%": modified = 0; break;
+			case "_":
+			case ")": cont = 1; break;
+			case "{": 
+				repeat_begin = cur + 1;
+				repeat_cond = 0;
+				repeat_cur = 1;
+				start = cur + 1;
+				break;
+			case "}": 
+				if (repeat_cur == 1)
+				{
+					cur = repeat_begin;
+					repeat_cur ++;
+					start = cur + 1;
+					continue;
+				}
+				start = cur + 1;
+				break;
+			case "'": repeat_cond = 1; break;
+			case "\"": repeat_cond = 2; break;
+			case "]": repeat_cond = 0; break;
+			case "7": base += 2;
+			case "6": base += 2;
+			case "5": base += 2;
+			case "4": base += 1;
+			case "3": base += 2;
+			case "2": base += 2;
+			case "1":
+				if (repeat_cond == 0 || repeat_cur == repeat_cond)
+				{
+					modified_note[base] = modified;
+					if (modified_note[base])
+						base += modified_note[base];
+
+					if (cont == 1 && base == track[track.length-1][1]) {
+						track[track.length-1][0] += tick;
+						track[track.length-1][4] = cur;
+					} else
+						track.push([tick, base, volume, start, cur]);
+				}
+				start = cur + 1;
+				base = 60;
+				volume = 50;
+				tick = 480;
+				cont = 0;
+				modified = 0;
+				break;
+			case "0":
+				if (repeat_cond == 0 || repeat_cur == repeat_cond)
+					track.push([tick, 0, volume, start, cur]);
+				start = cur + 1;
+				base = 60;
+				volume = 50;
+				tick = 480;
+				cont = 0;
+				modified = 0;
+				break;
+			case ".":
+				if (repeat_cond == 0 || repeat_cur == repeat_cond)
+				{
+					track[track.length-1][0] *= 1.5;
+					track[track.length-1][4] = cur;
+				}
+				start = cur + 1;
+				break;
+			case "-":
+				if (repeat_cond == 0 || repeat_cur == repeat_cond)
+				{
+					track[track.length-1][0] += tick;
+					track[track.length-1][4] = cur;
+				}
+				start = cur + 1;
+				break;
+			case "|":
+				modified_note = [];
+				modified_note[99] = 0;
+				start = cur + 1;
+				break;
+		}
+		cur ++;
+	}
+	return track;
+}
+
+function play()
+{
+	for (i=0;i<16;i++)
+		audio[i] = document.createElement('audio');
+	music = document.getElementById('musicnotes');
+	track = compile(music.value);
+	console.debug(track.length);
+	playnote(track, 0);
+	return false;
+}
+
+</script>
+
+
+
+ </head>
+ <body>
+<!--
+ <div style="font-family: JianPu">1234567q1q2q3q4q5q6q7Q1Q2Q3Q4Q5Q6Q7</div>
+ <div style="font-family: JianPu">z1z2z3z4z5z6z7Z1Z2Z3Z4Z5Z6Z7</div>
+ <div style="font-family: JianPu">#1$2%34-5.(6)7(1_2)3</div>
+ <div style="font-family: JianPu">x1Xx2v3Vv4n5Nn6c1Xc2b3Vb4m5Nm6C1XC2B3VB4M5NM6</div>
+ <div style="font-family: JianPu">{12|34|56|['7=q1]}["1=2\!34/</div>
+-->
+	<form onsubmit="return play()">
+<textarea id="musicnotes">
+(xq3_Xx#q2_{_xq3_Xx#q2_qx3_Xx7_%qx2_Xxq1_|)6x0(Xx1_x3_Xx6_|)7x0(Xx3_x#5_Xx7_|
+)q1x0(Xx3_xq3_Xx#q2_|_xq3_Xx#q2)qx3(Xx7_%qx2)Xxq1|6x0(Xx1_x3_Xx6_|)7x0(Xx3_xq1_Xx7_|
+[')6=-=(xq3=_Xx#q2]}[")6=x0=(Xx7=_xq1=_Xxq2_{)q3.(x5_xq4_Xxq3_|)q2.(x4_xq3_Xxq2_|
+)q1.(x3_xq2_Xxq1_|)7.(x3)xq3(xX3_|)xq3(xXq3)xQ3(xXq#2)xq3(xXq2_|)xq3(xXq#2)xq3(xXq2_xq3_xXq2_|
+_xq3_Xx#q2)qx3(Xx7_%qx2)Xxq1|6x0(Xx1_x3_Xx6_|)7x0(Xx3_x#5_Xx7_|)q1x0(Xx3_xq3_Xx#q2_|
+_xq3_Xx#q2)qx3(Xx7_%qx2)Xxq1|6x0(Xx1_x3_Xx6_|)7x0(Xx3_xq1_Xx7_|[')6=x0=Xx7=xq1=Xxq2]}
+[")6=x0=xXq1=xq1=xXq1|q1-(xq4.vXq)3|(q3)q2(xq$7.)vXq6|(xq6_xXq5_xq4_xXq3_xq2_xXq1_|
+($7)6(v6_Vv5_Vv6_Vv7_|)q1-xq2xXq#2|q3.xq3xq4Xx6|q1.nq2Nnq1Nn7Nnq1xq2.Xv7|
+(vq1)Vvq5(Vv5)Vvq5(v6)Vvq5(Vv7)Vvq5(vq1)Vvq5(Vvq2)Vvq5|(vq3)Vvq5VvQ1Vvq7vq6Vvq5Vvq4Vvq3vq2Vvq5Vvq4Vvq2|(vq1)Vvq5(Vv5)Vvq5(v6)Vvq5(Vv7)Vvq5(vq1)Vvq5(Vvq2)Vvq5
+(vq3)Vvq5VvQ1Vvq7vq6Vvq5Vvq4Vvq3vq2Vvq5Vvq4Vvq2|(vq3_Vvq4_Vvq3_Vvq#2)vq3(Vv7_Vvq3_Vvq2)vq3(Vv7_Vvq3_Vvq2_|)q3.(x7_xq3_Xxq#2_|
+)q3.(x7)xq3(Xxq#2_|)xq3(Xxq#2)xq3(Xxq2)xq3(Xxq2_|_xq3_Xxq#2)xq3(Xx7_xq%2_Xxq1_|
+)6x0(Xx1_x3_Xx6_|)7x0(Xx3_xq1_Xx7_|)6x0(Xx7_xq1_Xxq2_|)q3.(x5_xq4_Xxq3_|
+)q2.(x4_xq3_Xxq2_|)q1.(x3_xq2_Xxq1_|)7x0(Xx3)xq3(xX3_|)xq3(xXq3)xQ3(xXq#2)xq3(xXq2_|
+)xq3(xXq#2)xq3(xXq2_xq3_xXq2_|_xq3_Xx#q2)qx3(Xx7_%qx2_Xxq1_|)6x0(Xx1_x3_Xx6_|)7x0(Xx3_x#5_Xx7_|
+)q1x0(Xx3_xq3_Xx#q2_|_xq3_Xx#q2)qx3(Xx7_%qx2)Xxq1|6x0(Xx1_x3_Xx6_|)7x0(Xx3_xq1_Xx7_|)6-/</textarea>
+		<br><input type="submit" value="Play">
+	</form>
+</body>
+</html>
