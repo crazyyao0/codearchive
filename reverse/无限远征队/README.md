@@ -4,7 +4,7 @@
 
 000
 ---------------------------
-最近玩了一款名叫无限远征队的游戏。这又是一款棒子出的放置类游戏。玩了几天又想改游戏了，不好意思啦！
+最近玩了一款名叫无限远征队的游戏。这是一款棒子出的放置类游戏。玩了几天又想改游戏了，不好意思啦！
 
 001
 ---------------------------
@@ -218,7 +218,7 @@ def rijndael32_cbc_pkcs7_encrypt(data, key, iv):
 
 利用这连个函数我们来验证一下这个求subToken的算法。值得一提的是我发现虽然key看上去像32字节长的字符串base64编码后的结果，但其实真正的key是他的前32字节（faint, 这个估计是bug. 作者显然没有意识到需要base64解码。被截断成32字节的key也是意外）
 
-```
+```ptyhon
 encrypted = base64.b64decode("WBTf7ZNk0LdF0lQW4di7Em51VsocJ5pB1P1yejDXZkJBtrVl6y959y4HHIz8pAZ7vdPlZiTOO4gNT8YfR0PWSQ==")
 key="62yAk57/7Pz//E2+semLkrpCQ4rdcLEUNqXtPAG2goQ="[0:32]
 iv ="hru237vl8^#d9!d0d39e;d2ke-dng94w"
@@ -236,7 +236,7 @@ print rijndael32_cbc_pkcs7_decrypt(encrypted, key, iv)
 
 可以看到每一个数据结构中都有一个叫lk的字段。仔细读了一下代码，lk是对数据结构的一个校验，用来防止篡改数据的。比如说以下代码是用来计算heros结构的校验值
 
-```
+```C#
 public override string GenerateKey()
 {
 	StringBuilder stringBuilder = new StringBuilder();
