@@ -1,0 +1,1576 @@
+syntax = "proto2";
+package xbxxzproto;
+message PetPKActionProto {
+  required string petname = 1;
+  required uint32 hurt = 2;
+  required uint32 hurtype = 3;
+}
+
+message PKActionProto {
+  required uint32 type = 1;
+  required uint32 hurt = 2;
+  required uint32 hurtype = 3;
+  required uint32 attskilltype = 4;
+  required uint32 attskillvalue = 5;
+  required uint32 defskilltype = 6;
+  required uint32 defskillvalue = 7;
+  required PetPKActionProto petaction = 8;
+}
+
+message SelectUserInfo {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 type = 3;
+  required uint32 level = 4;
+  required uint32 mapid = 5;
+  required string mapName = 6;
+  required uint32 country = 7;
+  required uint32 group = 8;
+  required uint32 face = 9;
+  required uint32 hair = 10;
+  required string countryName = 11;
+  required uint32 bitmask = 12;
+  required uint32 forbidTime = 13;
+  required uint32 zone_state = 14;
+  required uint32 target_zone = 15;
+  required uint32 acceptPK = 16;
+  required t_MapUserSculptProto sculpt = 17;
+  required uint32 flatZoneID = 18;
+  required uint32 gameZoneID = 19;
+  required uint32 activestar = 20;
+}
+
+message stObjectLocationProto {
+  required uint32 dwLocation = 1;
+  required uint32 x = 2;
+}
+
+message stServerReturnLoginFailedCmd {
+  required uint32 returncode = 1;
+}
+
+message t_AddExpMessage_XBXXZ {
+  required uint64 addexp = 1;
+  required uint64 userexp = 2;
+}
+
+message t_AddObjectInfoProto {
+  required uint32 byActionType = 1;
+  required t_ObjectProto obj = 2;
+}
+
+message t_AllAutoMapMessage_XBXXZ {
+  repeated t_AutoMapRecordProto records = 1;
+}
+
+message t_AllSysFuncOpenMessage_XBXXZ {
+  repeated uint32 sysfunopens = 1;
+}
+
+message t_AppleGameCenterMessage_XBXXZ {
+  required string gamecenter = 1;
+}
+
+message t_ApplyFairyLandOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 officerlevel = 2;
+}
+
+message t_autoActiveMapMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 count = 2;
+}
+
+message t_AutoMapRecordProto {
+  required uint32 mapid = 1;
+  required uint32 lefttimes = 2;
+  required uint32 totaltimes = 3;
+}
+
+message t_AutoMapResultMessage_XBXXZ {
+  required uint32 totalcount = 1;
+  required uint32 curcount = 2;
+  required uint32 starttime = 3;
+  repeated t_OneStepAutoMapProto allsteps = 4;
+  required uint32 internaltime = 5;
+  required uint32 endtime = 6;
+  required uint32 mapid = 7;
+  required uint32 subhalfsecflag = 8;
+}
+
+message t_BroadcastMessage_XBXXZ {
+  required uint32 index = 1;
+  required uint32 time = 2;
+  required string name = 3;
+  required uint32 schoolid = 4;
+  required uint32 skillid = 5;
+}
+
+message t_BuyAutoBookMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_BuyObjMessage_XBXXZ {
+  required uint32 index = 1;
+  required uint32 itemid = 2;
+  required uint32 itemnum = 3;
+}
+
+message t_CancelFairyLandOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 officerlevel = 2;
+}
+
+message t_CancelStarOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 officerlevel = 2;
+}
+
+message t_CaveInfoMessage_XBXXZ {
+  required uint32 leftperson = 1;
+  required uint32 cavestonelevel = 2;
+  required uint32 cavefoodlevel = 3;
+  required uint32 cavewoodlevel = 4;
+  required uint32 cavedruglevel = 5;
+  required uint32 caveironlevel = 6;
+  required uint32 cavestoneperson = 7;
+  required uint32 cavefoodperson = 8;
+  required uint32 cavewoodperson = 9;
+  required uint32 cavedrugperson = 10;
+  required uint32 caveironperson = 11;
+  required uint32 buypersonfood = 12;
+  required string cavename = 13;
+  required uint32 soullevel = 14;
+  required uint32 daoxin = 15;
+  required uint32 xinmo = 16;
+  required uint32 soulneeditemid = 17;
+  required uint32 soulneeditemnum = 18;
+}
+
+message t_CaveValue5SecMessage_XBXXZ {
+  required int32 stoneadd = 1;
+  required int32 foodadd = 2;
+  required int32 woodadd = 3;
+  required int32 drugadd = 4;
+  required int32 ironadd = 5;
+  required uint32 stone = 6;
+  required uint32 food = 7;
+  required uint32 wood = 8;
+  required uint32 drug = 9;
+  required uint32 iron = 10;
+}
+
+message t_ChangeCaveNameMessage_XBXXZ {
+  required string cavename = 1;
+}
+
+message t_chooseXianMoMessage_XBXXZ {
+  required uint32 choosecareer = 1;
+}
+
+message t_christmasGiftInfoMessage_XBXXZ {
+  required uint32 giftone = 1;
+  required uint32 gifttwo = 2;
+  required uint32 giftthree = 3;
+  required uint32 giftfour = 4;
+  required uint32 giftfive = 5;
+}
+
+message t_CombineExchangeItemProto {
+  required uint32 index = 1;
+  required uint32 lefttimes = 2;
+  required uint32 maxtimes = 3;
+  required uint32 itemid = 4;
+  required uint32 itemnum = 5;
+  required uint32 needitemid1 = 6;
+  required uint32 needitemnum1 = 7;
+  required uint32 needitemid2 = 8;
+  required uint32 needitemnum2 = 9;
+  required uint32 needitemid3 = 10;
+  required uint32 needitemnum3 = 11;
+  required uint32 needitemid4 = 12;
+  required uint32 needitemnum4 = 13;
+  required uint32 needitemid5 = 14;
+  required uint32 needitemnum5 = 15;
+  required uint32 needitemid6 = 16;
+  required uint32 needitemnum6 = 17;
+  required uint32 needitemid7 = 18;
+  required uint32 needitemnum7 = 19;
+  required uint32 needitemid8 = 20;
+  required uint32 needitemnum8 = 21;
+}
+
+message t_CombinExchangeInfoMessage_XBXXZ {
+  repeated t_CombineExchangeItemProto combindexchangeitems = 1;
+}
+
+message t_CommonRewardMessage_XBXXZ {
+  repeated t_RewardObjsProto itemset = 1;
+}
+
+message t_CreateUserOKMessage_XBXXZ {
+  required uint32 charid = 1;
+}
+
+message t_DanStoveProto {
+  required uint32 index = 1;
+  required uint32 state = 2;
+}
+
+message t_DaoTongAllInfoMessage_XBXXZ {
+  repeated t_DaoTongInfoProto daotongs = 1;
+}
+
+message t_DaoTongGetRewardMessage_XBXXZ {
+  required uint32 id = 1;
+}
+
+message t_DaoTongInfoProto {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 sex = 3;
+  required uint32 level = 4;
+  required uint32 bodylevel = 5;
+  required uint32 quality = 6;
+  required uint32 potential = 7;
+  required uint32 appearance = 8;
+  required uint32 goldspirit = 9;
+  required uint32 woodspirit = 10;
+  required uint32 waterspirit = 11;
+  required uint32 firespirit = 12;
+  required uint32 mudspirit = 13;
+  required uint32 todayworktimes = 14;
+  required uint32 todaymaxtimes = 15;
+  required uint32 lefttime = 16;
+  required uint32 totaltime = 17;
+  required uint32 getreward = 18;
+  repeated t_RewardObjsProto items = 19;
+  required uint32 worktype = 20;
+}
+
+message t_DaoTongRemoveMessage_XBXXZ {
+  required uint32 id = 1;
+}
+
+message t_DaoTongStartWashMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_DaoTongStartWorkMessage_XBXXZ {
+  required uint32 id = 1;
+  required uint32 worktype = 2;
+  required uint32 worktimes = 3;
+}
+
+message t_DaoTongWashInfoMessage_XBXXZ {
+  required uint32 washlevel = 1;
+  required uint32 lefttime = 2;
+  required uint32 totaltime = 3;
+  required uint32 result = 4;
+  required uint32 getreward = 5;
+  repeated uint32 daotongs = 6;
+  required uint32 cost100person = 7;
+  required uint32 cost1000person = 8;
+  required uint32 cost6000person = 9;
+}
+
+message t_delFairyPetMessage_XBXXZ {
+  required uint32 petindex = 1;
+}
+
+message t_DelObjMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+}
+
+message t_DragonEventMessage_XBXXZ {
+  repeated t_OneDragonEventProto events = 1;
+}
+
+message t_DragonExchangeMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_DragonInfoMessage_XBXXZ {
+  required uint32 type = 1;
+  required uint32 lefttime = 2;
+  required uint32 nextdayflag = 3;
+}
+
+message t_emptyFairyPetMessage_XBXXZ {
+  required uint32 petindex = 1;
+}
+
+message t_EnlightenmentInfoMessage_XBXXZ {
+  required uint32 xiulianlevel = 1;
+  required uint32 zhandoulevel = 2;
+}
+
+message t_EnlightenmentResultMessage_XBXXZ {
+  required uint32 type = 1;
+  required uint32 level = 2;
+}
+
+message t_EnterMapMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_EventInfoProto {
+  required uint32 pos = 1;
+  required uint32 type = 2;
+  required uint32 action = 3;
+  required uint32 value1 = 4;
+  required uint32 value2 = 5;
+  required uint32 npcatt = 6;
+}
+
+message t_ExchangeItemProto {
+  required uint32 index = 1;
+  required uint32 lefttimes = 2;
+  required uint32 maxtimes = 3;
+  required uint32 itemid = 4;
+  required uint32 itemnum = 5;
+  required uint32 needitemid1 = 6;
+  required uint32 needitemnum1 = 7;
+  required uint32 needitemid2 = 8;
+  required uint32 needitemnum2 = 9;
+  required uint32 needitemid3 = 10;
+  required uint32 needitemnum3 = 11;
+}
+
+message t_exchangeKunLunStoreMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_exchangeNewYearStoreMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_ExchangePureBodyMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+  required uint32 usenum = 2;
+}
+
+message t_fabaoInfoMessage_XBXXZ {
+  required uint32 posone = 1;
+  required uint32 postwo = 2;
+  required uint32 posthree = 3;
+  required t_fabaoInfoProto fabaoone = 4;
+  required t_fabaoInfoProto fabaotwo = 5;
+  required t_fabaoInfoProto fabaothree = 6;
+  repeated t_fabaoInfoProto stores = 7;
+}
+
+message t_fabaoInfoProto {
+  required uint32 fabaoid = 1;
+  required uint32 level = 2;
+  required uint32 exp = 3;
+  required uint32 maxexp = 4;
+}
+
+message t_FairyLandBuyItemProto {
+  required uint32 itemid = 1;
+  required uint32 itemnum = 2;
+  required uint32 buynum = 3;
+  required uint32 maxbuynum = 4;
+  required uint32 price = 5;
+}
+
+message t_FairyLandBuyObjMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 index = 2;
+  required uint32 itemid = 3;
+  required uint32 itemnum = 4;
+}
+
+message t_FairyLandInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 masterid = 2;
+  required string mastername = 3;
+  repeated t_FairyLandProcessProto processs = 4;
+}
+
+message t_FairyLandOfficerInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  repeated t_FairyLandOfficerItemProto officers = 2;
+}
+
+message t_FairyLandOfficerItemProto {
+  required uint32 officerlevel = 1;
+  required uint32 charid = 2;
+  required string name = 3;
+}
+
+message t_FairyLandProcessProto {
+  required string name = 1;
+  required uint32 curdegree = 2;
+}
+
+message t_FairyLandShopInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 index = 2;
+  repeated t_FairyLandBuyItemProto items = 3;
+}
+
+message t_FairyPetInfoMessage_XBXXZ {
+  required uint32 type = 1;
+  repeated t_OneFairyPetInfoProto allpets = 2;
+  required uint32 poollevel = 3;
+}
+
+message t_feedFaBaoMessage_XBXXZ {
+  required uint32 pos = 1;
+}
+
+message t_feedFairyPetMessage_XBXXZ {
+  required uint32 petindex = 1;
+  required uint32 qwthisid = 2;
+  required uint32 dwnum = 3;
+}
+
+message t_fightFairyPetMessage_XBXXZ {
+  required uint32 petindex = 1;
+}
+
+message t_generalInfoMessage_XBXXZ {
+  required uint32 generalid = 1;
+}
+
+message t_getChristmasGiftMessage_XBXXZ {
+  required uint32 gifttype = 1;
+}
+
+message t_GetNewYearGiftFiveMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_GetNewYearGiftTwoMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_getrewardWorldTraverMessage_XBXXZ {
+  required uint32 worldindex = 1;
+  required uint32 level = 2;
+}
+
+message t_GetShopExteralRewardMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_GetSigleRobRewardMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_GetYearGiftMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_GongDeTaskInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  repeated t_GongDeTaskItemProto tasks = 2;
+  required uint32 tasktaskid = 3;
+  required uint32 lefttime = 4;
+  required uint32 totalsec = 5;
+}
+
+message t_GongDeTaskItemProto {
+  required uint32 taskid = 1;
+  required uint32 firstpass = 2;
+}
+
+message t_GongDeTaskPKMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 taskid = 2;
+  required uint32 result = 3;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 4;
+}
+
+message t_GuidFairyLandInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  repeated t_GuidUserProto guidusers = 2;
+}
+
+message t_GuidRequstInfoProto {
+  required uint32 mapid = 1;
+  required string name = 2;
+}
+
+message t_GuidUserProto {
+  required uint32 charid = 1;
+  required string name = 2;
+}
+
+message t_hatchFairyPetInfoMessage_XBXXZ {
+  required uint32 eggid = 1;
+  required uint32 lefttime = 2;
+  required uint32 totalsec = 3;
+  required uint32 petid = 4;
+}
+
+message t_hatchFairyPetMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+}
+
+message t_ImmortalGiftInfoMessage_XBXXZ {
+  repeated t_NewYearTwoStateProto gifts = 1;
+}
+
+message t_IndivSortItemProto {
+  required uint32 oldplace = 1;
+  required string name = 2;
+  required uint32 charid = 3;
+  required uint32 sex = 4;
+  required uint32 job = 5;
+  required string septname = 6;
+  required uint32 group = 7;
+  required uint32 vip = 8;
+  required uint32 level = 9;
+  required uint32 value = 10;
+  required uint32 value1 = 11;
+}
+
+message t_KingManagerInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 dailyrewardflag = 2;
+  repeated t_KingRewardItemProto items = 3;
+}
+
+message t_KingRewardItemProto {
+  required uint32 itemid = 1;
+  required uint32 itemnum = 2;
+}
+
+message t_KunLunExchangeItemProto {
+  required uint32 index = 1;
+  required uint32 lefttimes = 2;
+  required uint32 maxtimes = 3;
+  required uint32 itemid = 4;
+  required uint32 itemnum = 5;
+  required uint32 needitemid1 = 6;
+  required uint32 needitemnum1 = 7;
+  required uint32 needitemid2 = 8;
+  required uint32 needitemnum2 = 9;
+  required uint32 needitemid3 = 10;
+  required uint32 needitemnum3 = 11;
+}
+
+message t_kunlunStoreInfoMessage_XBXXZ {
+  repeated t_KunLunExchangeItemProto exchangeitems = 1;
+}
+
+message t_learnSkillXianMoMessage_XBXXZ {
+  required uint32 skillid = 1;
+}
+
+message t_LevelUPMessage_XBXXZ {
+  required uint32 id = 1;
+  required uint32 level = 2;
+}
+
+message t_lockFaBaoMessage_XBXXZ {
+  required uint32 fabaoid = 1;
+  required uint32 pos = 2;
+}
+
+message t_LoginSelectMessage_XBXXZ {
+  required uint32 isReconected = 1;
+}
+
+message t_MailAddListProto {
+  required uint32 id = 1;
+  required uint32 state = 2;
+  required string fromname = 3;
+  required string title = 4;
+  required uint32 accessory = 5;
+  required uint32 createtime = 6;
+  required uint32 endtime = 7;
+  required uint32 type = 8;
+  required uint32 needmoney = 9;
+}
+
+message t_MailContentProto {
+  required uint32 id = 1;
+  required string title = 2;
+  required uint32 accessory = 3;
+  required string text = 4;
+  required uint32 sendmoney = 5;
+  required uint32 recvmoney = 6;
+  required uint32 sendgold = 7;
+  required uint32 recvgold = 8;
+  required t_ObjectProto obj = 9;
+}
+
+message t_MailOpenMessage_XBXXZ {
+  required uint32 mailid = 1;
+}
+
+message t_MainPackNumProto {
+  required uint32 mainpacknum = 1;
+  required uint32 storepacknum = 2;
+}
+
+message t_MainUserProto {
+  required uint32 charid = 1;
+  required string name = 2;
+  required uint32 sex = 3;
+  required uint32 level = 4;
+  required uint64 exp = 5;
+  required uint64 nextexp = 6;
+  required uint32 group = 7;
+  required uint32 spiritstone = 8;
+  required uint32 reputation = 9;
+  required uint32 bodylevel = 10;
+  required uint32 doomlevel = 11;
+  required uint32 livetime = 12;
+  required uint32 pkscore = 13;
+  required uint32 doompercent = 14;
+  required uint32 spiritnum = 15;
+  required uint32 maxspiritnum = 16;
+  required uint32 spiritlevel = 17;
+  required uint32 goldspiritlevel = 18;
+  required uint32 woodspiritlevel = 19;
+  required uint32 waterspiritlevel = 20;
+  required uint32 firespiritlevel = 21;
+  required uint32 mudspiritlevel = 22;
+  required uint32 food = 23;
+  required uint32 wood = 24;
+  required uint32 drug = 25;
+  required uint32 iron = 26;
+  required uint32 skillpoint = 27;
+  required uint32 positive = 28;
+  required uint32 negative = 29;
+  required uint32 neutral = 30;
+  required uint32 buyskillpoint = 31;
+  required uint32 gold = 32;
+  required uint32 gongde = 33;
+  required uint32 needskillcontribute = 34;
+  required uint32 fairylandmapid = 35;
+  required uint32 officerlevel = 36;
+  required uint32 userface = 37;
+  required uint32 walkspeed = 38;
+  required uint32 flyspeed = 39;
+  required uint32 swimspeed = 40;
+  required uint32 totalrecharge = 41;
+}
+
+message t_MapEnterInfoMessage_XBXXZ {
+  required uint32 totalentertimes = 1;
+  required uint32 maxautotimes = 2;
+  required uint32 autothreesecbuy = 3;
+  required uint32 autoonesecbuy = 4;
+  required uint32 autosellobj = 5;
+  required uint32 maxturntimes = 6;
+}
+
+message t_MapLingShanEnterInfoProto {
+  required uint32 leftentertimes = 1;
+  required uint32 fairypetlandlefttimes = 2;
+  required uint32 deadpoollefttimes = 3;
+  required uint32 magichouselefttimes = 4;
+}
+
+message t_MapListMessage_XBXXZ {
+  repeated uint32 mapids = 1;
+  required uint32 curmapid = 2;
+}
+
+message t_MapUserSculptProto {
+  required uint32 dwHorseID = 1;
+  required uint32 dwHeadID = 2;
+  required uint32 dwBodyID = 3;
+  required uint32 dwlegsID = 4;
+  required uint32 dwhandsID = 5;
+  required uint32 dwfeetsID = 6;
+  required uint32 dwWeaponID = 7;
+}
+
+message t_MoveMapMessage_XBXXZ {
+  required uint32 pos = 1;
+}
+
+message t_MoveObjMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+  required stObjectLocationProto dst = 2;
+}
+
+message t_NewLoginPlantProto {
+  required string userid = 1;
+  required uint32 serverid = 2;
+  required string swordversion = 3;
+  required uint32 appid = 4;
+  required uint32 time = 5;
+  required string sign = 6;
+}
+
+message t_NewYearExchangeItemProto {
+  required uint32 index = 1;
+  required uint32 lefttimes = 2;
+  required uint32 maxtimes = 3;
+  required uint32 itemid = 4;
+  required uint32 itemnum = 5;
+  required uint32 needitemid1 = 6;
+  required uint32 needitemnum1 = 7;
+  required uint32 needitemid2 = 8;
+  required uint32 needitemnum2 = 9;
+  required uint32 needitemid3 = 10;
+  required uint32 needitemnum3 = 11;
+}
+
+message t_NewYearFiveStateProto {
+  required uint32 index = 1;
+  required uint32 count = 2;
+  required uint32 maxcount = 3;
+  required uint32 needrecharge = 4;
+  repeated t_NewYearItemProto gifts = 5;
+}
+
+message t_NewYearGiftInfoMessage_XBXXZ {
+  required t_NewYearStateProto giftone = 1;
+  repeated t_NewYearTwoStateProto gifttwos = 2;
+  required t_NewYearStateProto giftthree = 3;
+  required t_NewYearStateProto giftfour = 4;
+  repeated t_NewYearFiveStateProto giftfives = 5;
+  required t_NewYearStateProto giftsix = 6;
+  required uint32 isopen = 7;
+}
+
+message t_NewYearGiftTimeMessage_XBXXZ {
+  required uint32 starttime = 1;
+  required uint32 endtime = 2;
+  required uint32 exchangestarttime = 3;
+  required uint32 exchangeendtime = 4;
+}
+
+message t_NewYearItemProto {
+  required uint32 itemid = 1;
+  required uint32 itemnum = 2;
+}
+
+message t_NewYearStateProto {
+  required uint32 state = 1;
+  repeated t_NewYearItemProto gifts = 2;
+}
+
+message t_NewYearStoreInfoMessage_XBXXZ {
+  repeated t_NewYearExchangeItemProto exchangeitems = 1;
+}
+
+message t_NewYearTwoStateProto {
+  required uint32 index = 1;
+  required uint32 needyear = 2;
+  required uint32 needrecharge = 3;
+  required uint32 state = 4;
+  repeated t_NewYearItemProto gifts = 5;
+}
+
+message t_NpcAttResultMessage_XBXXZ {
+  required uint32 result = 1;
+  repeated PKActionProto actions = 2;
+  required uint32 reputation = 3;
+  repeated t_RewardObjsProto items = 4;
+}
+
+message t_ObjectProto {
+  required uint32 qwThisID = 1;
+  required uint32 dwObjectID = 2;
+  required string strName = 3;
+  required uint32 dwNum = 4;
+  required stObjectLocationProto pos = 5;
+  required uint32 bind = 6;
+  required uint32 overDue = 7;
+  required uint32 basedamage = 8;
+  required uint32 defence = 9;
+  required uint32 wdamage = 10;
+  required uint32 mdamage = 11;
+  required uint32 gdamage = 12;
+  required uint32 pdamage = 13;
+  required uint32 dodge = 14;
+  required uint32 bang = 15;
+  required uint32 aspeed = 16;
+  required uint32 doom = 17;
+  required uint32 maxhp = 18;
+}
+
+message t_ObjProto {
+  required uint32 objid = 1;
+  required uint32 objnum = 2;
+}
+
+message t_ObjUseTimesProto {
+  required uint32 itemid = 1;
+  required uint32 curtimes = 2;
+  required uint32 maxtimes = 3;
+}
+
+message t_OfficerApplyItemProto {
+  required uint32 officerlevel = 1;
+  required string name = 2;
+  required uint32 charid = 3;
+}
+
+message t_OfficerApplyListMessage_XBXXZ {
+  required uint32 mapid = 1;
+  repeated t_OfficerApplyItemProto applylists = 2;
+}
+
+message t_OfflineRewardMessage_XBXXZ {
+  required int32 addexp = 1;
+  required int32 addspirit = 2;
+  required int32 addreputation = 3;
+  required int32 addpositive = 4;
+  required int32 addnegative = 5;
+  required int32 addneutral = 6;
+  required int32 addstone = 7;
+  required int32 addfood = 8;
+  required int32 addwood = 9;
+  required int32 adddrug = 10;
+  required int32 addiron = 11;
+  required int32 addcontribute = 12;
+  required uint64 newaddexp = 13;
+}
+
+message t_OneDragonEventProto {
+  required uint32 index = 1;
+  required uint32 year = 2;
+  required uint32 attack = 3;
+  required uint32 day = 4;
+}
+
+message t_OneFairyPetInfoProto {
+  required uint32 petindex = 1;
+  required uint64 exp = 2;
+  required uint64 maxexp = 3;
+  required uint32 level = 4;
+  required uint32 sex = 5;
+  required uint32 generation = 6;
+  required uint32 loyalty = 7;
+  required uint32 zhizhilevel = 8;
+  required uint32 gengulevel = 9;
+  required uint32 speedlevel = 10;
+  required uint32 damage = 11;
+  required uint32 defence = 12;
+  required uint32 maxhp = 13;
+  required uint32 bang = 14;
+  required uint32 dodge = 15;
+  required uint32 speed = 16;
+  required uint32 cardid = 17;
+  required string name = 18;
+  required uint32 petid = 19;
+  required uint32 state = 20;
+  required uint32 qualitytype = 21;
+  required uint32 percent = 22;
+}
+
+message t_OneMapInfoMessage_XBXXZ {
+  required uint32 curpos = 1;
+  repeated t_EventInfoProto events = 2;
+  required uint32 lastpos = 3;
+}
+
+message t_OneNpcPKResultMessage_XBXXZ {
+  required uint32 result = 1;
+  repeated PKActionProto actions = 2;
+  required uint32 npcid = 3;
+  required uint32 type = 4;
+  required string name = 5;
+  required uint32 officerlevel = 6;
+}
+
+message t_OneStepAutoMapProto {
+  required uint32 count = 1;
+  required uint32 type = 2;
+  required uint32 value1 = 3;
+  required uint32 value2 = 4;
+  repeated t_RewardObjsProto items = 5;
+  required uint32 reputation = 6;
+}
+
+message t_OneWorldEventProto {
+  required uint32 level = 1;
+  required uint32 index = 2;
+  required uint32 year = 3;
+}
+
+message t_openFaBaoPosMessage_XBXXZ {
+  required uint32 pos = 1;
+}
+
+message t_OptionItem {
+  required uint32 id = 1;
+  required uint32 state = 2;
+}
+
+message t_OptionProto {
+  repeated t_OptionItem options = 1;
+}
+
+message t_OtherDragonEventMessage_XBXXZ {
+  required uint32 type = 1;
+  required uint32 anonymous = 2;
+  required string name = 3;
+  required uint32 schoolid = 4;
+}
+
+message t_passWorldTraverMessage_XBXXZ {
+  required uint32 worldindex = 1;
+  required uint32 level = 2;
+}
+
+message t_PKResultActiveMapMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 result = 2;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 3;
+}
+
+message t_PKResultGuidInfoProto {
+  required uint32 mapid = 1;
+  required uint32 result = 2;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 3;
+}
+
+message t_PKResultStarOfficerInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 officerlevel = 2;
+  required uint32 result = 3;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 4;
+}
+
+message t_PKResultWorldTraverInfoMessage_XBXXZ {
+  required uint32 worldindex = 1;
+  required uint32 level = 2;
+  required uint32 result = 3;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 4;
+}
+
+message t_PlayValueUpdayteMessage_XBXXZ {
+  required uint32 id = 1;
+  required uint32 value = 2;
+}
+
+message t_PropertyObjUseTimesMessage_XBXXZ {
+  repeated t_ObjUseTimesProto useitems = 1;
+}
+
+message t_PureBodyInfoMessage_XBXXZ {
+  required uint32 isopen = 1;
+  required uint32 quality = 2;
+}
+
+message t_PutPersonCaveMessage_XBXXZ {
+  required uint32 type = 1;
+  required uint32 action = 2;
+  required uint32 reputation = 3;
+  repeated t_RewardObjsProto items = 4;
+}
+
+message t_QiStoveProto {
+  required uint32 index = 1;
+  required uint32 state = 2;
+}
+
+message t_RechargeInfoMessage_XBXXZ {
+  required string productid = 1;
+  required string orderid = 2;
+}
+
+message t_RechargeSandBoxMessage_XBXXZ {
+  required int32 issandbox = 1;
+}
+
+message t_RecommendCodeMessage_XBXXZ {
+  required string code = 1;
+}
+
+message t_RecommendDataProto {
+  required uint32 charid = 1;
+  required string name = 2;
+}
+
+message t_RecommendListMessage_XBXXZ {
+  required uint32 count = 1;
+  repeated t_RecommendDataProto recommends = 2;
+  required t_RecommendDataProto ownerrecommend = 3;
+  required string code = 4;
+  required uint32 stonenum = 5;
+}
+
+message t_refineFaBaoInfoMessage_XBXXZ {
+  required uint32 identifylefttime = 1;
+  required uint32 identifytotalsec = 2;
+  required uint32 identifyitemid = 3;
+  required uint32 refineindex = 4;
+  required uint32 refinelefttime = 5;
+  required uint32 refinetotalsec = 6;
+  required uint32 refineitemid = 7;
+}
+
+message t_refineFaBaoMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_RefreshObjMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+  required uint32 num = 2;
+  required uint32 type = 3;
+}
+
+message t_RemoveSkillMessage_XBXXZ {
+  required uint32 skillid = 1;
+}
+
+message t_renameFairyPetMessage_XBXXZ {
+  required uint32 petindex = 1;
+  required string name = 2;
+}
+
+message t_ReqAutoMapMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 count = 2;
+}
+
+message t_reqChangeFaceMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_ReqEnterDragonMessage_XBXXZ {
+  required uint32 type = 1;
+  required uint32 anonymous = 2;
+}
+
+message t_ReqFairyLandInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_ReqFairyLandOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_ReqFirstPassGongDeTaskMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 taskid = 2;
+}
+
+message t_ReqFiveSecMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_reqGeneralMessage_XBXXZ {
+  required uint32 generalid = 1;
+}
+
+message t_ReqGongDeTaskMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_ReqKingDailyRewardMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_ReqKingManagerMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_ReqOfficerApplyListMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_ReqOpenFairyLandShopMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 index = 2;
+}
+
+message t_ReqOpenShopMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_reqPassGuidFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_reqPKActiveMapMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_reqPKGuidFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_reqPKStarOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 officerlevel = 2;
+}
+
+message t_ReqRobShopInfoMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_ReqSchoolExchangeMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_ReqSchoolTaskMessage_XBXXZ {
+  required uint32 taskid = 1;
+}
+
+message t_ReqSchoolUpLevelMessage_XBXXZ {
+  required uint32 level = 1;
+}
+
+message t_reqStarOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 officerlevel = 2;
+}
+
+message t_RequestSortListMessage_XBXXZProto {
+  required uint32 type = 1;
+  required uint32 page = 2;
+}
+
+message t_reqWorldTraverInfoMessage_XBXXZ {
+  required uint32 worldindex = 1;
+}
+
+message t_Return5SecMessage_XBXXZ {
+  required uint32 type = 1;
+  required uint32 leftsec = 2;
+}
+
+message t_ReturnDoomResultMessage_XBXXZ {
+  required uint32 result = 1;
+  required uint32 doomlevel = 2;
+}
+
+message t_ReturnRemoveSkillMessage_XBXXZ {
+  required uint32 skillid = 1;
+  required uint32 type = 2;
+}
+
+message t_ReturnUpSkillMessage_XBXXZ {
+  required uint32 skillid = 1;
+  required uint32 skilllevel = 2;
+  required uint32 type = 3;
+}
+
+message t_RewardObjsProto {
+  required uint32 id = 1;
+  required uint32 num = 2;
+}
+
+message t_RobShopInfoMessage_XBXXZ {
+  required uint32 index = 1;
+  repeated t_RobShopItemProto items = 2;
+  required uint32 state = 3;
+}
+
+message t_RobShopItemProto {
+  required uint32 itemid = 1;
+  required uint32 itemnum = 2;
+}
+
+message t_SaveBroadcastMessage_XBXXZ {
+  repeated t_BroadcastMessage_XBXXZ tvs = 1;
+}
+
+message t_SchoolDanInfoMessage_XBXXZ {
+  required uint32 danquality = 1;
+  required uint32 studytype = 2;
+  required uint32 studylefetime = 3;
+  repeated t_DanStoveProto stoves = 4;
+  required uint32 stoveindex = 5;
+  required uint32 stovelefttime = 6;
+  repeated uint32 learndans = 7;
+  required uint32 stovedanid = 8;
+  required uint32 getdan = 9;
+  required uint32 itemid = 10;
+  required uint32 itemnum = 11;
+  required uint32 curexp = 12;
+  required uint32 maxexp = 13;
+  required uint32 studytotalleft = 14;
+  required uint32 stovetotaltime = 15;
+}
+
+message t_SchoolDanStudyMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_SchoolDataMessage_XBXXZ {
+  required uint32 contribute = 1;
+  required uint32 skillbook = 2;
+  required uint32 dutylevel = 3;
+  required uint32 dailyget = 4;
+}
+
+message t_SchoolExchangeInfoMessage_XBXXZ {
+  repeated t_ExchangeItemProto exchangeitems = 1;
+}
+
+message t_SchoolInfoMessage_XBXXZ {
+  required uint32 schoolid = 1;
+  repeated t_SchoolSkillProto skills = 2;
+}
+
+message t_SchoolQiInfoMessage_XBXXZ {
+  required uint32 qiquality = 1;
+  required uint32 studytype = 2;
+  required uint32 studylefetime = 3;
+  repeated t_QiStoveProto stoves = 4;
+  required uint32 stoveindex = 5;
+  required uint32 stovelefttime = 6;
+  repeated uint32 learnqis = 7;
+  required uint32 stoveqiid = 8;
+  required uint32 getqi = 9;
+  required uint32 itemid = 10;
+  required uint32 itemnum = 11;
+  required uint32 curexp = 12;
+  required uint32 maxexp = 13;
+  required uint32 studytotalleft = 14;
+  required uint32 stovetotaltime = 15;
+}
+
+message t_SchoolQiStudyMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_SchoolSkillProto {
+  required uint32 skillid = 1;
+  required uint32 skilllevel = 2;
+  required uint32 type = 3;
+}
+
+message t_SchoolSpeedUpInfoMessage_XBXXZ {
+  required uint32 typeonestate = 1;
+  required uint32 typetwostate = 2;
+  required uint32 typeonelefttime = 3;
+  required uint32 typetwolefttime = 4;
+  required uint32 curbuynum = 5;
+  required uint32 maxbuynum = 6;
+  required uint32 leftspeedupnum = 7;
+}
+
+message t_SchoolStartDanMessage_XBXXZ {
+  required uint32 index = 1;
+  required uint32 danid = 2;
+  required uint32 num = 3;
+}
+
+message t_SchoolStartQiMessage_XBXXZ {
+  required uint32 index = 1;
+  required uint32 qiid = 2;
+}
+
+message t_SchoolStartSpeedUpMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_SchoolTaskInfoMessage_XBXXZ {
+  repeated t_SingleSchoolTaskProto tasks = 1;
+  required uint32 tasktaskid = 2;
+  required uint32 lefttime = 3;
+  required uint32 totalsec = 4;
+}
+
+message t_SchoolValue5MinMessage_XBXXZ {
+  required uint32 addpositive = 1;
+  required uint32 addnegative = 2;
+  required uint32 addneutral = 3;
+  required uint32 addreputation = 4;
+  required uint32 positive = 5;
+  required uint32 negative = 6;
+  required uint32 neutral = 7;
+  required uint32 reputation = 8;
+}
+
+message t_selectGuidFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 charid = 2;
+}
+
+message t_SellObjMessage_XBXXZ {
+  required uint32 objthisid = 1;
+  required uint32 num = 2;
+}
+
+message t_ShopExtralRewardInfoMessage_XBXXZ {
+  required uint32 type1 = 1;
+  required uint32 type2 = 2;
+}
+
+message t_ShopInfoMessage_XBXXZ {
+  repeated t_ShopItemProto shops = 1;
+  required uint32 refreshtime = 2;
+  required uint32 index = 3;
+}
+
+message t_ShopItemProto {
+  required uint32 itemid = 1;
+  required uint32 maxbuynum = 2;
+  required uint32 curbuynum = 3;
+  required uint32 price = 4;
+}
+
+message t_SingleFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+}
+
+message t_SinglePKFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 result = 2;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 3;
+}
+
+message t_SingleRobPKInfoMessage_XBXXZ {
+  required uint32 result = 1;
+  repeated t_OneNpcPKResultMessage_XBXXZ allnpcs = 2;
+  required uint32 index = 3;
+}
+
+message t_SingleRobShopMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_SingleSchoolTaskProto {
+  required uint32 taskid = 1;
+  required string title = 2;
+  required string desc = 3;
+  required uint32 contribute = 4;
+  required uint32 stone = 5;
+  required uint32 needlevel = 6;
+  required uint32 roottype = 7;
+  required uint32 rootlevel = 8;
+  required uint32 liandanlevel = 9;
+  required uint32 lianqilevel = 10;
+}
+
+message t_SingleSysSettingDataMessage_XBXXZProto {
+  required uint32 type = 1;
+  required uint32 sysset = 2;
+}
+
+message t_sitFairyPetMessage_XBXXZ {
+  required uint32 petindex = 1;
+}
+
+message t_SortListMessage_XBXXZProto {
+  required uint32 type = 1;
+  required uint32 page = 2;
+  required uint32 totalpage = 3;
+  required uint32 pkscore = 4;
+  required uint32 place = 5;
+  repeated t_IndivSortItemProto items = 6;
+}
+
+message t_SpiritNumMessage_XBXXZ {
+  required uint32 addspirit = 1;
+  required uint32 curspirit = 2;
+}
+
+message t_SplitObjMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+  required uint32 qwnewthisid = 2;
+  required uint32 dwnum = 3;
+  required stObjectLocationProto dst = 4;
+}
+
+message t_stAddObjectListUnityMessage_XBXXZProto {
+  required uint32 version = 1;
+  repeated t_AddObjectInfoProto userset = 2;
+}
+
+message t_StarOfficerInfoMessage_XBXXZ {
+  required uint32 mapid = 1;
+  repeated t_FairyLandOfficerItemProto officers = 2;
+}
+
+message t_startCombinExchangeMessage_XBXXZ {
+  required uint32 index = 1;
+}
+
+message t_StartEnlightenmentMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_StartGongDeTaskMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 taskid = 2;
+}
+
+message t_startGuidFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 type = 2;
+  required string name = 3;
+}
+
+message t_startWorldTraverMessage_XBXXZ {
+  required uint32 worldindex = 1;
+  required uint32 type = 2;
+}
+
+message t_stCreateSelectMessage_XBXXZProto {
+  required string strUserName = 1;
+  required uint32 jobType = 2;
+  required uint32 charType = 3;
+  required uint32 country = 4;
+  required uint32 suitType = 5;
+  required string strPromoterName = 6;
+}
+
+message t_stFinishMoblieQuestInfoMessage_XBXXZProto {
+  required uint32 version = 1;
+  repeated uint32 quests = 2;
+}
+
+message t_stGetRandNameMessage_XBXXZ {
+  required uint32 sex = 1;
+}
+
+message t_stMobileChannelChatMessage_XBXXZProto {
+  required uint32 dwType = 1;
+  required uint32 dwSysInfoType = 2;
+  required uint32 dwCharType = 3;
+  required uint32 dwCountry = 4;
+  required uint32 dwVip = 5;
+  required uint32 dwFromUserTempID = 6;
+  required uint32 dwChatTime = 7;
+  required string pstrName = 8;
+  required string pstrChat = 9;
+}
+
+message t_stRandNameMessage_XBXXZ {
+  required string name = 1;
+}
+
+message t_stUserInfoMessage_XBXXZProto {
+  required uint32 version = 1;
+  repeated SelectUserInfo userset = 2;
+}
+
+message t_unLockFaBaoMessage_XBXXZ {
+  required uint32 pos = 1;
+}
+
+message t_UpLevelCaveMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_UpLinGenMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
+message t_UpSkillMessage_XBXXZ {
+  required uint32 skillid = 1;
+}
+
+message t_UserItemMessage_XBXXZ {
+  required uint32 qwthisid = 1;
+  required uint32 num = 2;
+}
+
+message t_UserPropertyMessage_XBXXZ {
+  required uint32 damage = 1;
+  required uint32 defence = 2;
+  required uint32 wdamage = 3;
+  required uint32 mdamage = 4;
+  required uint32 gdamage = 5;
+  required uint32 pdamage = 6;
+  required uint32 xdamage = 7;
+  required uint32 dodge = 8;
+  required uint32 bang = 9;
+  required uint32 aspeed = 10;
+  required uint32 doomresist = 11;
+  required uint32 fireresist = 12;
+  required uint32 poisonresist = 13;
+  required uint32 longqi = 14;
+  required uint32 gongde = 15;
+  required uint32 maxhp = 16;
+  required uint32 iceresist = 17;
+  required uint32 jing = 18;
+  required uint32 hun = 19;
+  required uint32 zhou = 20;
+  required uint32 ling = 21;
+}
+
+message t_WorldEventLogInfoMessage_XBXXZ {
+  required uint32 eventtype = 1;
+  required uint32 worldindex = 2;
+  repeated t_OneWorldEventProto eventlogs = 3;
+}
+
+message t_worldTraverInfoMessage_XBXXZ {
+  required uint32 worldindex = 1;
+  repeated t_worldTraverLevelProto leveldatas = 2;
+  required uint32 curlevel = 3;
+  required uint32 curdistince = 4;
+  required uint32 lefttime = 5;
+  required uint32 totalsec = 6;
+}
+
+message t_worldTraverLevelProto {
+  required uint32 level = 1;
+  required uint32 state = 2;
+  required uint32 getreward = 3;
+}
+
+message t_XianMoInfoMessage_XBXXZ {
+  required uint32 career = 1;
+  required uint32 level = 2;
+  required uint64 exp = 3;
+  repeated t_XianMoSkillMessage_XBXXZ skilldata = 4;
+}
+
+message t_XianMoLeftTimeMessage_XBXXZ {
+  required uint32 lefttime = 1;
+  required uint64 exp = 2;
+}
+
+message t_XianMoSkillMessage_XBXXZ {
+  required uint32 skillid = 1;
+  required uint32 skilllevel = 2;
+}
+
+message t_XiuLianLeftTimeMessage_XBXXZ {
+  required uint32 lefttime = 1;
+}
+
+message t_YearGiftRewardInfoMessage_XBXXZ {
+  required uint32 levelonetype = 1;
+  required uint32 leveltwotype = 2;
+  repeated t_YearRewardItemProto rewardone = 3;
+  repeated t_YearRewardItemProto rewardtwo = 4;
+  required uint32 levelthreetype = 5;
+  repeated t_YearRewardItemProto rewardthree = 6;
+  required uint32 levelfourtype = 7;
+  repeated t_YearRewardItemProto rewardfour = 8;
+  required uint32 levelfivetype = 9;
+  repeated t_YearRewardItemProto rewardfive = 10;
+}
+
+message t_YearRewardItemProto {
+  required uint32 itemid = 1;
+  required uint32 itemnum = 2;
+}
+
+message t_YesORNoFairyLandOfficerMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 answer = 2;
+  required uint32 officerlevel = 3;
+  required uint32 charid = 4;
+  required string name = 5;
+}
+
+message t_yesOrNoGuidFairyLandMessage_XBXXZ {
+  required uint32 mapid = 1;
+  required uint32 result = 2;
+}
+
+message t_ZhenFaInfoMessage_XBXXZ {
+  required uint32 zhenfaquality = 1;
+  required uint32 studytype = 2;
+  required uint32 studylefetime = 3;
+  required uint32 curexp = 4;
+  required uint32 maxexp = 5;
+  required uint32 studytotalleft = 6;
+}
+
+message t_ZhenFaStudyMessage_XBXXZ {
+  required uint32 type = 1;
+}
+
