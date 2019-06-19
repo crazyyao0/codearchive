@@ -67,9 +67,9 @@ class SSQ:
             print("第%d天，小明买了"%(self.round),a,"开奖结果",b,"小明得到%d元"%(c))
         balance = self.gain - self.round*2
         if balance>0:
-            print("小明总共赚了%d元"%(balance))
+            print("小明这十天总共赚了%d元"%(balance))
         else:
-            print("小明总共亏了%d元"%(-balance))
+            print("小明这十天总共亏了%d元"%(-balance))
                     
     def simulate1year(self):
         print("小明坚持每天都买一张彩票")
@@ -82,9 +82,9 @@ class SSQ:
             self.gain += c
         balance = self.gain - self.round*2
         if balance>0:
-            print("小明总共赚了%d元"%(balance))
+            print("小明这一年总共赚了%d元"%(balance))
         else:
-            print("小明总共亏了%d元"%(-balance))
+            print("小明这一年总共亏了%d元"%(-balance))
     
     def simulate59year(self):
         for i in range(365*59):
@@ -97,9 +97,9 @@ class SSQ:
                 self.history[7000000], self.history[140000], self.history[3000], self.history[200], self.history[10], self.history[5]))
         balance = self.gain - self.round*2
         if balance>0:
-            print("他总共赚了%d元"%(balance))
+            print("小明这辈子总共赚了%d元"%(balance))
         else:
-            print("他总共亏了%d元"%(-balance))
+            print("小明这辈子总共亏了%d元"%(-balance))
     
     def simulate2life(self):
         print("-----------------")
@@ -110,21 +110,21 @@ class SSQ:
         for i in range(365*60):
             c = self.draw()
             self.history[c] += 1
-            self.round += 1*10
-            self.gain += c*10
+            self.round += 1*1
+            self.gain += c*1
         print("60年又过去了，他总共买了%d张彩票"%(self.round))
         print("他一共中了%d次一等奖，%d次二等奖，%d次三等奖，%d次四等奖，%d次五等奖，%d次六等奖"%(
                 self.history[7000000], self.history[140000], self.history[3000], self.history[200], self.history[10], self.history[5]))
         balance = self.gain - self.round*2
         if balance>0:
-            print("他总共赚了%d元"%(balance))
+            print("小明这辈子总共赚了%d元"%(balance))
         else:
-            print("他总共亏了%d元"%(-balance))            
+            print("小明这辈子总共亏了%d元"%(-balance))            
         
     def simulatenthlife(self):
         print("-----------------")
         print("小明每次死的时候都能意外穿越。他决定继续买")
-        for r in range(3,100):
+        for r in range(3,101):
             for i in range(365*60):
                 c = self.draw()
                 if c == 7000000:
@@ -132,7 +132,7 @@ class SSQ:
             if c == 7000000:
                 print("终于在第%d次穿越的时候中了一等奖，恭喜小明！"%(r))
                 return
-        print("6000年过去了，他一次一等奖也没有中过。小明厌倦了这个游戏，不想玩了")
+        print("6000年过去了，他轮回了100次，但是一次一等奖也没有中过。小明厌倦了这个游戏，不想玩了")
         
 ssq = SSQ()
 ssq.simulate10days()
